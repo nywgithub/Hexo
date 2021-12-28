@@ -58,3 +58,19 @@ console.log(user.name)
 user.name = 'new'
 ```
 **如果一个描述符同时拥有 value 或 writable 和 get 或 set 键，则会产生一个异常。**
+
+- **Proxy**
+array[-1]，从数组末尾访问元素
+```javascript
+let array = [1, 2, 3];
+array = new Proxy(array, {
+  get(target, prop, receiver) {
+    if (prop < 0) {
+      // 即使我们像 arr[1] 这样访问它
+      // prop 是一个字符串，所以我们需要将其转换成数字
+      prop = +prop + target.length;
+    }
+    return Reflect.get(target, prop, receiver);
+  }
+});
+```
